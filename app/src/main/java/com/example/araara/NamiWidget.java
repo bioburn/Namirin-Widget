@@ -32,7 +32,7 @@ public class NamiWidget extends AppWidgetProvider {
         PendingIntent pending = PendingIntent.getBroadcast(context, 0 , serviceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         PendingIntent pendingServiceIntent = PendingIntent.getService(context,0,serviceIntent,PendingIntent.FLAG_UPDATE_CURRENT);
 
-        views.setOnClickPendingIntent(R.id.imageButton2,test);
+        views.setOnClickPendingIntent(R.id.imageView2,test);
 
 
         Log.d("WidgetProvider","Hello");

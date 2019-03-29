@@ -1,12 +1,18 @@
 package com.example.araara;
 
 import android.app.IntentService;
+import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.media.MediaPlayer;
+import android.os.IBinder;
 import android.util.Log;
 
 import java.util.Random;
+
+import static android.content.Intent.ACTION_SCREEN_ON;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -15,7 +21,19 @@ import java.util.Random;
  * TODO: Customize class - update intent actions, extra parameters and static
  * helper methods.
  */
-public class AraAraService extends IntentService {
+public class AraAraService extends Service {
+
+private final BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction() ==  ACTION_SCREEN_ON) //|| intent.getAction() == "android.provider.Telephony.SMS_RECEIVED")
+            {
+                Log.d("Action screen on!","Hello");
+                playSound();
+            }
+        }
+    };
+
 
     int[] AraAras = {R.raw.araara2,R.raw.araara3,R.raw.araara4,R.raw.araara5,R.raw.araara6};
     MediaPlayer mp;
@@ -30,7 +48,7 @@ public class AraAraService extends IntentService {
     private static final String EXTRA_PARAM2 = "com.example.araara.extra.PARAM2";
 
     public AraAraService() {
-        super("AraAraService");
+
     }
 
     /**
@@ -64,35 +82,30 @@ public class AraAraService extends IntentService {
     }
 
     @Override
-    protected void onHandleIntent(Intent intent) {
-        if (intent != null) {
-            mp = MediaPlayer.create(this, AraAras[new Random().nextInt(5)]);
-            mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    mp.release();
-                    stopSelf();
-                }
-            });
-            Log.d("Intent Start","Hi");
-            playSound();
-
-            final String action = intent.getAction();
-            if (ACTION_FOO.equals(action)) {
-                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
-                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-                handleActionFoo(param1, param2);
-            } else if (ACTION_BAZ.equals(action)) {
-                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
-                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-                handleActionBaz(param1, param2);
-            }
-        }
+    public void onCreate(){
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_SCREEN_ON);
+        //This requires <action android:name="android.provider.Telephony.SMS_RECEIVED" /> in the intent filter tag inside a receiver
+        //filter.addAction("android.provider.Telephony.SMS_RECEIVED");
+        registerReceiver(receiver,filter);
     }
+
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
 
     private void playSound(){
 
-
+        mp = MediaPlayer.create(getApplicationContext(),AraAras[new Random().nextInt(4)]);
+        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.release();
+            }
+        });
         mp.start();
     }
     /**
@@ -111,5 +124,12 @@ public class AraAraService extends IntentService {
     private void handleActionBaz(String param1, String param2) {
         // TODO: Handle action Baz
         throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        Log.d("onDestroy", "unregister receiver");
+        unregisterReceiver(receiver);
     }
 }
