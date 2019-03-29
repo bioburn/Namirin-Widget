@@ -17,6 +17,8 @@ In the end I put the mediaplayer logic in a broadcast receiver instead. How much
 Next
 
 start a service with a broadcast listener that listens for device events such as unlocking the screen.
+note - some events are unavailable on api level 26+
+But jokes on them because my phone is on api level 23 and I don't have any internal storage space left to do an update
 
 play sound on receive
 
