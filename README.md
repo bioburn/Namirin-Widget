@@ -12,3 +12,14 @@ I thought it might have to do with creating too many service instances, but I wa
 the code to play the media player. 
 
 In the end I put the mediaplayer logic in a broadcast receiver instead. How much battery will this use up?
+
+<br/>
+Next
+
+start a service with a broadcast listener that listens for device events such as unlocking the screen.
+
+play sound on receive
+
+???
+
+profit
