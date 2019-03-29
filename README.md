@@ -16,7 +16,8 @@ In the end I put the mediaplayer logic in a broadcast receiver instead. How much
 <br/>
 Next 
 
-start a service with a broadcast listener that listens for device events such as unlocking the screen.
+1.
+start a service with a broadcast listener that listens for device events such as unlocking the screen. **Complete**
 note - some events are unavailable on api level 26+
 But jokes on them because my phone is on api level 23 and I don't have any internal storage space left to do an update
 
@@ -26,4 +27,7 @@ play sound on receive
 
 profit
 
-COMPLETED!
+2.
+On unlock screen, show avatar animation on top of screen
+
+
