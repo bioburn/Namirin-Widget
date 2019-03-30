@@ -6,10 +6,17 @@ import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
+import android.net.Uri;
 import android.os.IBinder;
+import android.provider.MediaStore;
 import android.util.Log;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Random;
 
 import static android.content.Intent.ACTION_SCREEN_ON;
@@ -99,14 +106,29 @@ private final BroadcastReceiver receiver = new BroadcastReceiver() {
 
     private void playSound(){
 
-        mp = MediaPlayer.create(getApplicationContext(),AraAras[new Random().nextInt(4)]);
+        AudioAttributes audioAttributes = new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
+                .setLegacyStreamType(AudioManager.STREAM_RING)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+        mp = MediaPlayer.create(getApplicationContext(),AraAras[new Random().nextInt(4)],audioAttributes,0);
+
+        //InputStream ins = getResources().openRawResource(AraAras[new Random().nextInt(4)]);
+
         mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 mp.release();
             }
         });
+
+        //mp.setAudioAttributes(audioAttributes);
+
         mp.start();
+
+
+        //SoundPool soundPool = new SoundPool(5,AudioManager.STREAM_RING,0);
+
+
     }
     /**
      * Handle action Foo in the provided background thread with the provided
