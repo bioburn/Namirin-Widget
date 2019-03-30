@@ -13,6 +13,18 @@ the code to play the media player.
 
 In the end I put the mediaplayer logic in a broadcast receiver instead. How much battery will this use up?
 
+<H5>Notes<H5/>
+  Service vs IntentService
+  <br/>
+  https://stackoverflow.com/questions/15524280/service-vs-intentservice
+  
+  Which one is best suited to listen for phone events?
+  
+  IntentService runs on background thread, which would be nice for playing a short sound, and to listen for events?
+  Initially tried with intentservice but had trouble registering the broadcastreceiver to it... will revisit in the future
+  IntentService destroys self upon executing all code
+  
+
 <br/>
 Next 
 
