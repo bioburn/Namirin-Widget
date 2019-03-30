@@ -13,7 +13,7 @@ the code to play the media player.
 
 In the end I put the mediaplayer logic in a broadcast receiver instead. How much battery will this use up?
 
-<H5>Notes<H5/>
+<H5>Notes</H5>
   Service vs IntentService
   <br/>
   https://stackoverflow.com/questions/15524280/service-vs-intentservice
